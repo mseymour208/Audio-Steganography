@@ -18,18 +18,7 @@ secret = header + msgBits
 # I want to encode both channels so I can maximize capacity
 # I want to iterate first through each sample, then through to both channels
 
-i = 0
-# Per channel, I want to perform these bitwise operations
-for channel in data:
-    # If we have reached the end of our message
-    if i == (len(msg) * 8) - 1:
-        break
 
-    for sample in channel:
-        # (sample & ~1) - Clears LSB of sample
-        # (sample & ~1) | secret bit - Populates LSB with our data
-        sample = (sample & ~1) | int(secret[i])
-    i += 1
 
 
 sio.wavfile.write('encodedFile.wav', rate, data)
