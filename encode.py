@@ -12,12 +12,19 @@ msgBits = ''.join(format(ord(char), '08b') for char in msg)
 # So the decoder knows when to stop reading from encoded file
 header = np.binary_repr(len(msg) * 8, width=32)
 secret = header + msgBits
+i = len(secret)
 #print(secret)
 
 # .wav file is stereo, so two channels
 # I want to encode both channels so I can maximize capacity
 # I want to iterate first through each sample, then through to both channels
-
+# Creating a 1D view of data
+# Extracting the first i elements
+# Applying (sample & ~1) to clear LSB of first i elements
+flatView = data.ravel()
+for idx in range(i):
+    embedded = (flatView[idx] & ~1) | secret[idx]
+    flatView[idx] = embedded
 
 
 
