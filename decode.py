@@ -3,7 +3,8 @@ import scipy.io as sio
 
 # Read in encoded wav
 rate, encodedData = sio.wavfile.read('encodedFile.wav')
-buffer, header = ""
+buffer = ""
+header = 0
 
 # Iterate data -> channel -> sample
 i = 0
@@ -22,7 +23,7 @@ for channel in encodedData:
     for sample in channel:
         # Extract LSB
         LSB = (sample & 1)
-        buffer += LSB
+        buffer += str(LSB)
 
 print(buffer)
 
