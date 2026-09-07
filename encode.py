@@ -15,17 +15,17 @@ secret = header + msgBits
 i = len(secret)
 #print(secret)
 
-# .wav file is stereo, so two channels
 # I want to encode both channels so I can maximize capacity
 # I want to iterate first through each sample, then through to both channels
 # Creating a 1D view of data
 # Extracting the first i elements
 # Applying (sample & ~1) to clear LSB of first i elements
+# .wav file is stereo, so two channels (N, 2)
+# Flattening so I can iterate linearlly
+# I clear each LSB and embed data, then overwrite the memory at flatView[idx]
 flatView = data.ravel()
 for idx in range(i):
-    embedded = (flatView[idx] & ~1) | secret[idx]
+    embedded = (flatView[idx] & ~1) | int(secret[idx])
     flatView[idx] = embedded
-
-
 
 sio.wavfile.write('encodedFile.wav', rate, data)
