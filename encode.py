@@ -25,7 +25,7 @@ i = len(secret)
 # I clear each LSB and embed data, then overwrite the memory at flatView[idx]
 flatView = data.ravel()
 for idx in range(i):
-    embedded = (flatView[idx] & ~1) | int(secret[idx])
-    flatView[idx] = embedded
+    embedded = (flatView[idx] & ~np.int16(1)) | int(secret[idx])
+    flatView[idx] = np.int16(embedded)
 
 sio.wavfile.write('encodedFile.wav', rate, data)
