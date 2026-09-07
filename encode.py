@@ -12,5 +12,7 @@ msgBits = ''.join(format(ord(char), '08b') for char in msg)
 # So the decoder knows when to stop reading from encoded file
 header = np.binary_repr(len(msg) * 8, width=32)
 secret = header + msgBits
+print(header)
 print(secret)
 
+# 00000000 00000000 00000000 00101000 | 01001000 01000101 01001100 01001100 01001111
