@@ -6,24 +6,20 @@ rate, encodedData = sio.wavfile.read('encodedFile.wav')
 buffer = ""
 header = 0
 
-# Iterate data -> channel -> sample
-i = 0
-for channel in encodedData:
-    # We've reached the end of the header
-    if (i == 31):
-        # Find length of encoded data & clear out buffer
-        header = int(buffer, 2)
-        buffer = ""
-        i = 0
+# Iterate linearlly through encoded data
+flatView = encodedData.ravel()
+# Extract the 32 bit header
+for idx in range(32):
+    bit = (flatView[idx] & np.int16(1))
+    buffer += bit
+header = int(buffer, 2)
+buffer = ""
 
-    # We've reached the end of encoded data
-    if (i == (header - 1)):
-        break
-
-    for sample in channel:
-        # Extract LSB
-        LSB = (sample & 1)
-        buffer += str(LSB)
+# Start where header ended
+for idx in range(32, header+1):
+    # Extract each embedded bit
+    bit = (flatView[idx] & np.int16(1))
+    buffer += bit
 
 print(buffer)
 
