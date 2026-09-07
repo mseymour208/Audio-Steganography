@@ -28,5 +28,8 @@ for channel in data:
     for sample in channel:
         # (sample & ~1) - Clears LSB of sample
         # (sample & ~1) | secret bit - Populates LSB with our data
-        (sample & ~1) | secret[i]
+        (sample & ~1) | int(secret[i])
     i += 1
+
+
+sio.wavfile.write('encodedFile.wav', rate, data)
