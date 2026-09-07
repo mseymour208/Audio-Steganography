@@ -2,7 +2,7 @@ import numpy as np
 import scipy.io as sio
 
 # Reading in .wav file & secret message
-testFile = sio.wavfile.read('test.wav')
+rate, data = sio.wavfile.read('test.wav')
 msg = input("Message to encode: ")
 
 # Converting the message string into a stream of bits
@@ -12,7 +12,11 @@ msgBits = ''.join(format(ord(char), '08b') for char in msg)
 # So the decoder knows when to stop reading from encoded file
 header = np.binary_repr(len(msg) * 8, width=32)
 secret = header + msgBits
-print(header)
-print(secret)
+#print(secret)
 
-# 00000000 00000000 00000000 00101000 | 01001000 01000101 01001100 01001100 01001111
+# .wav file is stereo, so two channels
+# I want to encode both channels so I can maximize capacity
+# I want to iterate first through each sample, then through to both channels
+# Per channel, I want to perform these bitwise operations
+# (sample & ~1) - Clears LSB of sample
+# (sample & ~1) | secret bit - Populates LSB with our data
