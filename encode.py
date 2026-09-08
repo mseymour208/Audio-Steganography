@@ -3,7 +3,11 @@ import scipy.io as sio
 
 # Reading in .wav file & secret message
 rate, data = sio.wavfile.read('test.wav')
-msg = input("Message to encode: ")
+
+# Reading message from file
+fileName = input("Name of txt file: ") + '.txt'
+with open(fileName, 'r', encoding='utf-8') as file:
+    msg = file.read()
 
 # Converting the message string into a stream of bits
 msgBits = ''.join(format(ord(char), '08b') for char in msg)

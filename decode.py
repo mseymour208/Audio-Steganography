@@ -27,7 +27,7 @@ for idx in range(32, header+32):
 ba = bitarray(buffer)
 
 # Turn into bytes and decode into ASCII
-decodedMsg = ba.tobytes().decode('ascii')
+decodedMsg = ba.tobytes().decode('utf-8')
 print(decodedMsg)
 
 
