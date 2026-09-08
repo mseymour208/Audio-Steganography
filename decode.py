@@ -11,15 +11,15 @@ flatView = encodedData.ravel()
 # Extract the 32 bit header
 for idx in range(32):
     bit = (flatView[idx] & np.int16(1))
-    buffer += bit
+    buffer += str(bit)
 header = int(buffer, 2)
 buffer = ""
 
 # Start where header ended
-for idx in range(32, header+1):
+for idx in range(32, header+32):
     # Extract each embedded bit
     bit = (flatView[idx] & np.int16(1))
-    buffer += bit
+    buffer += str(bit)
 
 print(buffer)
 
