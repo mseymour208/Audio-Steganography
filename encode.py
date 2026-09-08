@@ -10,11 +10,12 @@ with open(fileName, 'r', encoding='utf-8') as file:
     msg = file.read()
 
 # Converting the message string into a stream of bits
-msgBits = ''.join(format(ord(char), '08b') for char in msg)
+msgBytes = msg.encode('utf-8')
+msgBits = ''.join(format(b, '08b') for b in msgBytes)
 
 # Adding a 32 bit header to the secret data to denote message size in bits
 # So the decoder knows when to stop reading from encoded file
-header = np.binary_repr(len(msg) * 8, width=32)
+header = np.binary_repr(len(msgBytes) * 8, width=32)
 secret = header + msgBits
 i = len(secret)
 #print(secret)
